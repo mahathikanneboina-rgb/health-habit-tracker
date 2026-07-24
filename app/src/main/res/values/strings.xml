@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">habit tracker</string>
+    <string name="app_name">Health Habit Tracker</string>
+    <string name="splash_tagline">Track your health, build lasting habits</string>
+    <string name="login_title">Welcome Back</string>
+    <string name="login_subtitle">Sign in to continue tracking your daily habits</string>
+    <string name="email_hint">Email Address</string>
+    <string name="password_hint">Password</string>
+    <string name="btn_login">Sign In</string>
+    <string name="logo_description">Health Habit Tracker Logo</string>
 </resources>
