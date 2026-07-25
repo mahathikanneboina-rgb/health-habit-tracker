@@ -41,10 +41,11 @@ class RegisterActivity : AppCompatActivity() {
         // Register button click
         binding.btnRegister.setOnClickListener {
             if (validateInputs()) {
-                Toast.makeText(this, getString(R.string.registration_success), Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
+                Toast.makeText(this, getString(R.string.registration_success_login), Toast.LENGTH_LONG).show()
+                if (isTaskRoot) {
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                }
                 finish()
             }
         }
