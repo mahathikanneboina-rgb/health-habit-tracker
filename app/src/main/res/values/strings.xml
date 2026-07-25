@@ -38,4 +38,21 @@
     <string name="registration_success">Account created successfully!</string>
     <string name="registration_success_login">Account created successfully! Please sign in.</string>
     <string name="reset_link_sent">Password reset instructions sent to your email!</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_reports">Reports</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Dashboard Screen -->
+    <string name="greeting_hello">Hello, Alex 👋</string>
+    <string name="greeting_subtitle">Let\'s complete your daily habits!</string>
+    <string name="progress_card_title">Today\'s Progress</string>
+    <string name="progress_streak">🔥 5-Day Streak</string>
+    <string name="section_today_habits">Today\'s Habits</string>
+    <string name="add_habit">Add Habit</string>
+    <string name="fab_add_habit_content_desc">Add new habit</string>
+    <string name="tab_selected_format">Selected tab: %1$s</string>
+    <string name="add_habit_clicked">Add Habit dialog clicked!</string>
 </resources>
