@@ -7,4 +7,34 @@
     <string name="password_hint">Password</string>
     <string name="btn_login">Sign In</string>
     <string name="logo_description">Health Habit Tracker Logo</string>
+
+    <!-- Register Screen -->
+    <string name="register_title">Create Account</string>
+    <string name="register_subtitle">Start your journey to healthy habits today</string>
+    <string name="name_hint">Full Name</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="btn_register">Create Account</string>
+    <string name="already_have_account">Already have an account? </string>
+    <string name="dont_have_account">Don\'t have an account? </string>
+    <string name="action_register">Register</string>
+    <string name="action_login">Sign In</string>
+
+    <!-- Forgot Password Screen -->
+    <string name="forgot_password_title">Reset Password</string>
+    <string name="forgot_password_subtitle">Enter your email address and we\'ll send you a link to reset your password</string>
+    <string name="forgot_password_link">Forgot Password?</string>
+    <string name="btn_reset_password">Send Reset Link</string>
+    <string name="back_to_login">Back to Sign In</string>
+
+    <!-- Validation Errors & Messages -->
+    <string name="error_empty_name">Full name is required</string>
+    <string name="error_empty_email">Email address is required</string>
+    <string name="error_invalid_email">Please enter a valid email address</string>
+    <string name="error_empty_password">Password is required</string>
+    <string name="error_password_too_short">Password must be at least 6 characters</string>
+    <string name="error_empty_confirm_password">Please confirm your password</string>
+    <string name="error_password_mismatch">Passwords do not match</string>
+    <string name="login_success">Sign in successful!</string>
+    <string name="registration_success">Account created successfully!</string>
+    <string name="reset_link_sent">Password reset instructions sent to your email!</string>
 </resources>
