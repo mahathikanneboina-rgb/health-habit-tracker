@@ -155,101 +155,55 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardProgress" />
 
-            <!-- Habits Checklist Container -->
-            <LinearLayout
-                android:id="@+id/llHabitsContainer"
+            <!-- Habits RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvHabits"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSectionTitle"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_habit" />
+
+            <!-- Empty State View -->
+            <LinearLayout
+                android:id="@+id/llEmptyState"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
                 android:orientation="vertical"
+                android:padding="24dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSectionTitle">
 
-                <!-- Habit Item 1 -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    app:cardBackgroundColor="@color/surface"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="1dp"
-                    app:strokeWidth="0dp">
+                    android:text="🌱"
+                    android:textSize="48sp" />
 
-                    <CheckBox
-                        android:id="@+id/cbHabit1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:padding="12dp"
-                        android:text="💧 Drink 2.5L Water"
-                        android:textColor="@color/text_primary"
-                        android:textSize="16sp" />
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Habit Item 2 -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    app:cardBackgroundColor="@color/surface"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="1dp"
-                    app:strokeWidth="0dp">
+                    android:layout_marginTop="8dp"
+                    android:text="@string/empty_habits_title"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-                    <CheckBox
-                        android:id="@+id/cbHabit2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:padding="12dp"
-                        android:text="🏃‍♂️ 30 Min Morning Workout"
-                        android:textColor="@color/text_primary"
-                        android:textSize="16sp" />
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Habit Item 3 -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    app:cardBackgroundColor="@color/surface"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="1dp"
-                    app:strokeWidth="0dp">
-
-                    <CheckBox
-                        android:id="@+id/cbHabit3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:padding="12dp"
-                        android:text="📚 Read 15 Pages of Book"
-                        android:textColor="@color/text_primary"
-                        android:textSize="16sp" />
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Habit Item 4 -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    app:cardBackgroundColor="@color/surface"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="1dp"
-                    app:strokeWidth="0dp">
-
-                    <CheckBox
-                        android:id="@+id/cbHabit4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:checked="false"
-                        android:padding="12dp"
-                        android:text="🧘‍♀️ 10 Min Evening Meditation"
-                        android:textColor="@color/text_primary"
-                        android:textSize="16sp" />
-                </com.google.android.material.card.MaterialCardView>
-
+                    android:layout_marginTop="4dp"
+                    android:text="@string/empty_habits_subtitle"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
