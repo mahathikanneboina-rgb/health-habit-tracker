@@ -97,8 +97,16 @@ class AddHabitActivity : AppCompatActivity() {
             finish()
         }
 
+        binding.btnCancelHabit.setOnClickListener {
+            finish()
+        }
+
         binding.etHabitName.doOnTextChanged { _, _, _, _ ->
             binding.tilHabitName.error = null
+        }
+
+        binding.etDailyGoal.doOnTextChanged { _, _, _, _ ->
+            binding.tilDailyGoal.error = null
         }
 
         binding.btnSaveHabit.setOnClickListener {
@@ -112,10 +120,19 @@ class AddHabitActivity : AppCompatActivity() {
         val dailyGoal = binding.etDailyGoal.text?.toString()?.trim().orEmpty()
         val reminderTime = binding.etReminderTime.text?.toString()?.trim().orEmpty().ifEmpty { "08:00 AM" }
 
+        var isValid = true
+
         if (name.isEmpty()) {
             binding.tilHabitName.error = getString(R.string.error_empty_habit_name)
-            return
+            isValid = false
         }
+
+        if (dailyGoal.isEmpty()) {
+            binding.tilDailyGoal.error = getString(R.string.error_empty_daily_goal)
+            isValid = false
+        }
+
+        if (!isValid) return
 
         if (editingHabitId != null) {
             val existingHabit = repository.getHabitById(editingHabitId!!)

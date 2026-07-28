@@ -71,6 +71,8 @@
     <string name="btn_edit_habit_desc">Edit Habit</string>
     <string name="btn_delete_habit_desc">Delete Habit</string>
     <string name="error_empty_habit_name">Habit name cannot be empty</string>
+    <string name="error_empty_daily_goal">Daily goal cannot be empty</string>
+    <string name="btn_cancel">Cancel</string>
     <string name="habit_updated_success">Habit updated successfully!</string>
     <string name="habit_saved_success">Habit saved successfully!</string>
 </resources>
