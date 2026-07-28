@@ -55,4 +55,22 @@
     <string name="fab_add_habit_content_desc">Add new habit</string>
     <string name="tab_selected_format">Selected tab: %1$s</string>
     <string name="add_habit_clicked">Add Habit dialog clicked!</string>
+
+    <!-- Missing strings for AddHabit & Habits -->
+    <string name="btn_back_desc">Back</string>
+    <string name="title_add_habit">Add New Habit</string>
+    <string name="title_edit_habit">Edit Habit</string>
+    <string name="btn_update_habit">Update Habit</string>
+    <string name="hint_habit_name">Habit Name</string>
+    <string name="hint_category">Category</string>
+    <string name="hint_daily_goal">Daily Goal</string>
+    <string name="hint_reminder_time">Reminder Time</string>
+    <string name="btn_save_habit">Save Habit</string>
+    <string name="empty_habits_title">No Habits Yet</string>
+    <string name="empty_habits_subtitle">Tap + to add your first habit!</string>
+    <string name="btn_edit_habit_desc">Edit Habit</string>
+    <string name="btn_delete_habit_desc">Delete Habit</string>
+    <string name="error_empty_habit_name">Habit name cannot be empty</string>
+    <string name="habit_updated_success">Habit updated successfully!</string>
+    <string name="habit_saved_success">Habit saved successfully!</string>
 </resources>

@@ -12,22 +12,13 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var habitCheckBoxes: List<CheckBox>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        habitCheckBoxes = listOf(
-            binding.cbHabit1,
-            binding.cbHabit2,
-            binding.cbHabit3,
-            binding.cbHabit4
-        )
-
         displayTodayDate()
-        setupHabitsChecklist()
         setupBottomNavigation()
         setupFab()
         updateProgress()
@@ -38,20 +29,10 @@ class MainActivity : AppCompatActivity() {
         binding.tvTodayDate.text = dateFormat.format(Date())
     }
 
-    private fun setupHabitsChecklist() {
-        habitCheckBoxes.forEach { checkBox ->
-            checkBox.setOnCheckedChangeListener { _, _ ->
-                updateProgress()
-            }
-        }
-    }
-
     private fun updateProgress() {
-        val totalHabits = habitCheckBoxes.size
-        if (totalHabits == 0) return
-
-        val completedHabits = habitCheckBoxes.count { it.isChecked }
-        val percentage = (completedHabits * 100) / totalHabits
+        val totalHabits = 4
+        val completedHabits = 3
+        val percentage = 75
 
         binding.pbHabits.progress = percentage
         binding.tvProgressPercentage.text = "$percentage%"
@@ -66,7 +47,8 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_reports -> {
-                    Toast.makeText(this, getString(R.string.tab_selected_format, getString(R.string.nav_reports)), Toast.LENGTH_SHORT).show()
+                    val intent = android.content.Intent(this, ReportsActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.nav_profile -> {
