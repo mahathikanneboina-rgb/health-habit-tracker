@@ -62,8 +62,7 @@ class MainActivity : AppCompatActivity() {
                 addHabitLauncher.launch(intent)
             },
             onDeleteClick = { habit ->
-                repository.deleteHabit(habit.id)
-                loadHabits()
+                showDeleteConfirmationDialog(habit)
             }
         )
         binding.rvHabits.apply {
@@ -124,6 +123,18 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    private fun showDeleteConfirmationDialog(habit: Habit) {
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle(getString(R.string.delete_dialog_title))
+            .setMessage(getString(R.string.delete_dialog_message, habit.name))
+            .setPositiveButton(getString(R.string.btn_delete)) { _, _ ->
+                repository.deleteHabit(habit.id)
+                loadHabits()
+            }
+            .setNegativeButton(getString(R.string.btn_cancel), null)
+            .show()
     }
 
     private fun setupFab() {
