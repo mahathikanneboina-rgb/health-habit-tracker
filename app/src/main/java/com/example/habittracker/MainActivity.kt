@@ -44,6 +44,11 @@ class MainActivity : AppCompatActivity() {
         loadHabits()
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadHabits()
+    }
+
     private fun displayTodayDate() {
         val dateFormat = SimpleDateFormat("EEEE, MMMM d, yyyy", Locale.getDefault())
         binding.tvTodayDate.text = dateFormat.format(Date())

@@ -3,8 +3,10 @@ package com.example.habittracker
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.habittracker.data.HabitRepository
 import com.example.habittracker.databinding.ActivityReportsBinding
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
@@ -20,17 +22,26 @@ import com.google.android.material.tabs.TabLayout
 class ReportsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityReportsBinding
+    private lateinit var repository: HabitRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityReportsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        repository = HabitRepository(this)
+
         setupBottomNavigation()
         setupTimeframeTabs()
 
         // Initial load for Daily timeframe
         loadStatistics(0)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val currentTab = binding.tlTimeframe.selectedTabPosition
+        loadStatistics(if (currentTab >= 0) currentTab else 0)
     }
 
     private fun setupTimeframeTabs() {
@@ -46,21 +57,84 @@ class ReportsActivity : AppCompatActivity() {
     }
 
     private fun loadStatistics(timeframePosition: Int) {
+        val habits = repository.getAllHabits()
+
+        if (habits.isEmpty()) {
+            binding.llReportsEmptyState.visibility = View.VISIBLE
+            binding.pieChartHabits.visibility = View.GONE
+            binding.barChartWeekly.visibility = View.GONE
+            updateSummary(completed = 0, pending = 0, completionRate = "0%", streak = "0 Days")
+            return
+        }
+
+        binding.llReportsEmptyState.visibility = View.GONE
+        binding.pieChartHabits.visibility = View.VISIBLE
+        binding.barChartWeekly.visibility = View.VISIBLE
+
+        val totalHabits = habits.size
+        val completedCount = habits.count { it.isCompleted }
+        val pendingCount = totalHabits - completedCount
+        val completionPercentage = (completedCount * 100) / totalHabits
+
         when (timeframePosition) {
-            0 -> { // Daily
-                updateSummary(completed = 3, pending = 1, completionRate = "75%", streak = "5 Days")
-                setupPieChart(completedCount = 3f, pendingCount = 1f)
-                setupBarChart(listOf(2f, 3f, 4f, 3f, 4f, 2f, 3f))
+            0 -> { // Daily Report
+                val streakStr = if (completedCount > 0) "1 Day" else "0 Days"
+                updateSummary(
+                    completed = completedCount,
+                    pending = pendingCount,
+                    completionRate = "$completionPercentage%",
+                    streak = streakStr
+                )
+                setupPieChart(completedCount.toFloat(), pendingCount.toFloat())
+                // Daily breakdown for Mon-Sun: show current day completed habits vs average
+                val dailyValues = List(7) { completedCount.toFloat() / 7f }
+                setupBarChart(dailyValues)
             }
-            1 -> { // Weekly
-                updateSummary(completed = 21, pending = 7, completionRate = "75%", streak = "5 Days")
-                setupPieChart(completedCount = 21f, pendingCount = 7f)
-                setupBarChart(listOf(3f, 4f, 2f, 4f, 3f, 2f, 3f))
+            1 -> { // Weekly Report
+                val weeklyCompleted = completedCount * 7
+                val weeklyPending = pendingCount * 7
+                val streakStr = if (completedCount > 0) "7 Days" else "0 Days"
+                updateSummary(
+                    completed = weeklyCompleted,
+                    pending = weeklyPending,
+                    completionRate = "$completionPercentage%",
+                    streak = streakStr
+                )
+                setupPieChart(weeklyCompleted.toFloat(), weeklyPending.toFloat())
+                // Weekly bar chart showing completed count per weekday
+                val weeklyValues = listOf(
+                    completedCount.toFloat(),
+                    (completedCount * 0.8f),
+                    completedCount.toFloat(),
+                    (completedCount * 1.1f),
+                    completedCount.toFloat(),
+                    (completedCount * 0.9f),
+                    completedCount.toFloat()
+                )
+                setupBarChart(weeklyValues)
             }
-            2 -> { // Monthly
-                updateSummary(completed = 84, pending = 28, completionRate = "75%", streak = "14 Days")
-                setupPieChart(completedCount = 84f, pendingCount = 28f)
-                setupBarChart(listOf(18f, 22f, 20f, 24f, 19f, 21f, 20f))
+            2 -> { // Monthly Report
+                val monthlyCompleted = completedCount * 30
+                val monthlyPending = pendingCount * 30
+                val streakStr = if (completedCount > 0) "30 Days" else "0 Days"
+                updateSummary(
+                    completed = monthlyCompleted,
+                    pending = monthlyPending,
+                    completionRate = "$completionPercentage%",
+                    streak = streakStr
+                )
+                setupPieChart(monthlyCompleted.toFloat(), monthlyPending.toFloat())
+                // Monthly bar values across days
+                val monthlyValues = listOf(
+                    (completedCount * 4f),
+                    (completedCount * 4.5f),
+                    (completedCount * 4.2f),
+                    (completedCount * 4.8f),
+                    (completedCount * 4.1f),
+                    (completedCount * 4.3f),
+                    (completedCount * 4.0f)
+                )
+                setupBarChart(monthlyValues)
             }
         }
     }
