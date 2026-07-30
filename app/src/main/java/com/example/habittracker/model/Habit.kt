@@ -8,5 +8,6 @@ data class Habit(
     var category: String, // "Water", "Exercise", "Sleep", "Study", "Custom"
     var dailyGoal: String, // e.g. "2.5 Liters", "30 Minutes"
     var reminderTime: String, // e.g. "08:00 AM"
+    var notes: String = "",
     var isCompleted: Boolean = false
 )

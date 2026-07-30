@@ -65,9 +65,13 @@
     <string name="hint_category">Category</string>
     <string name="hint_daily_goal">Daily Goal</string>
     <string name="hint_reminder_time">Reminder Time</string>
+    <string name="hint_notes">Notes (Optional)</string>
     <string name="btn_save_habit">Save Habit</string>
-    <string name="empty_habits_title">No Habits Yet</string>
+    <string name="empty_habits_title">No habits added yet.</string>
     <string name="empty_habits_subtitle">Tap + to add your first habit!</string>
+    <string name="delete_dialog_title">Delete Habit</string>
+    <string name="delete_dialog_message">Are you sure you want to delete \"%1$s\"?</string>
+    <string name="btn_delete">Delete</string>
     <string name="btn_edit_habit_desc">Edit Habit</string>
     <string name="btn_delete_habit_desc">Delete Habit</string>
     <string name="error_empty_habit_name">Habit name cannot be empty</string>

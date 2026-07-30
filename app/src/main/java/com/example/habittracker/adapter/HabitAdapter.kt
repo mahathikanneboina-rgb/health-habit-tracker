@@ -42,6 +42,7 @@ class HabitAdapter(
                 "Exercise" -> "🏃‍♂️"
                 "Sleep" -> "😴"
                 "Study" -> "📚"
+                "Meditation" -> "🧘‍♂️"
                 else -> "🎨"
             }
             binding.tvHabitCategory.text = "${habit.category} $categoryEmoji"

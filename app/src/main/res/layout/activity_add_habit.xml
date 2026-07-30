@@ -103,7 +103,7 @@
                     android:id="@+id/etDailyGoal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -126,6 +126,25 @@
                     android:clickable="true"
                     android:focusable="false"
                     android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Notes Field (Optional) -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNotes"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/hint_notes"
+                app:boxStrokeColor="@color/primary"
+                app:hintTextColor="@color/primary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:minLines="2" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>

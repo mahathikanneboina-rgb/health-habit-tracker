@@ -44,6 +44,7 @@ class HabitRepository(context: Context) {
                         category = obj.optString("category", "Custom"),
                         dailyGoal = obj.optString("dailyGoal", ""),
                         reminderTime = obj.optString("reminderTime", "08:00 AM"),
+                        notes = obj.optString("notes", ""),
                         isCompleted = obj.optBoolean("isCompleted", false)
                     )
                 )
@@ -101,6 +102,7 @@ class HabitRepository(context: Context) {
                 put("category", habit.category)
                 put("dailyGoal", habit.dailyGoal)
                 put("reminderTime", habit.reminderTime)
+                put("notes", habit.notes)
                 put("isCompleted", habit.isCompleted)
             }
             jsonArray.put(obj)

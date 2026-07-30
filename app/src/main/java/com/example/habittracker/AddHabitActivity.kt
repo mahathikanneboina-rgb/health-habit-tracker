@@ -40,7 +40,7 @@ class AddHabitActivity : AppCompatActivity() {
     }
 
     private fun setupCategoryDropdown() {
-        val categories = arrayOf("Water", "Exercise", "Sleep", "Study", "Custom")
+        val categories = arrayOf("Water", "Exercise", "Sleep", "Study", "Meditation", "Custom")
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, categories)
         binding.actvCategory.setAdapter(adapter)
         binding.actvCategory.setText(categories[0], false)
@@ -88,6 +88,7 @@ class AddHabitActivity : AppCompatActivity() {
                 binding.actvCategory.setText(habit.category, false)
                 binding.etDailyGoal.setText(habit.dailyGoal)
                 binding.etReminderTime.setText(habit.reminderTime)
+                binding.etNotes.setText(habit.notes)
             }
         }
     }
@@ -119,6 +120,7 @@ class AddHabitActivity : AppCompatActivity() {
         val category = binding.actvCategory.text?.toString()?.trim().orEmpty().ifEmpty { "Custom" }
         val dailyGoal = binding.etDailyGoal.text?.toString()?.trim().orEmpty()
         val reminderTime = binding.etReminderTime.text?.toString()?.trim().orEmpty().ifEmpty { "08:00 AM" }
+        val notes = binding.etNotes.text?.toString()?.trim().orEmpty()
 
         var isValid = true
 
@@ -141,6 +143,7 @@ class AddHabitActivity : AppCompatActivity() {
                 existingHabit.category = category
                 existingHabit.dailyGoal = dailyGoal
                 existingHabit.reminderTime = reminderTime
+                existingHabit.notes = notes
                 repository.updateHabit(existingHabit)
                 Toast.makeText(this, getString(R.string.habit_updated_success), Toast.LENGTH_SHORT).show()
             }
@@ -150,6 +153,7 @@ class AddHabitActivity : AppCompatActivity() {
                 category = category,
                 dailyGoal = dailyGoal,
                 reminderTime = reminderTime,
+                notes = notes,
                 isCompleted = false
             )
             repository.addHabit(newHabit)
