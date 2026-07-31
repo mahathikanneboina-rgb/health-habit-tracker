@@ -8,10 +8,12 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.activity.viewModels
 import com.example.habittracker.adapter.HabitAdapter
-import com.example.habittracker.data.HabitRepository
+import com.example.habittracker.data.Habit
 import com.example.habittracker.databinding.ActivityMainBinding
-import com.example.habittracker.model.Habit
+import com.example.habittracker.viewmodel.HabitViewModel
+import com.example.habittracker.viewmodel.HabitViewModelFactory
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -19,15 +21,17 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var repository: HabitRepository
     private lateinit var habitAdapter: HabitAdapter
+
+    // Inject ViewModel using ViewModelProvider.Factory and the application singleton repository
+    private val viewModel: HabitViewModel by viewModels {
+        HabitViewModelFactory((application as HabitApplication).repository)
+    }
 
     private val addHabitLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            loadHabits()
-        }
+    ) { _ ->
+        // No manual refresh needed; LiveData handles UI updates reactively.
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,18 +39,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        repository = HabitRepository(this)
-
         displayTodayDate()
         setupRecyclerView()
         setupBottomNavigation()
         setupFab()
-        loadHabits()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        loadHabits()
+        observeHabits()
     }
 
     private fun displayTodayDate() {
@@ -57,8 +54,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         habitAdapter = HabitAdapter(
             onToggleComplete = { habit ->
-                repository.toggleHabitCompletion(habit.id)
-                loadHabits()
+                viewModel.toggleHabitCompletion(habit.id)
             },
             onEditClick = { habit ->
                 val intent = Intent(this, AddHabitActivity::class.java).apply {
@@ -76,19 +72,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadHabits() {
-        val habits = repository.getAllHabits()
-        habitAdapter.submitList(habits)
+    /**
+     * Observes the LiveData stream of habits from the Room database.
+     * Updates the adapter and dashboard stats reactively.
+     */
+    private fun observeHabits() {
+        viewModel.allHabits.observe(this) { habits ->
+            habitAdapter.submitList(habits)
 
-        if (habits.isEmpty()) {
-            binding.llEmptyState.visibility = View.VISIBLE
-            binding.rvHabits.visibility = View.GONE
-        } else {
-            binding.llEmptyState.visibility = View.GONE
-            binding.rvHabits.visibility = View.VISIBLE
+            if (habits.isEmpty()) {
+                binding.llEmptyState.visibility = View.VISIBLE
+                binding.rvHabits.visibility = View.GONE
+            } else {
+                binding.llEmptyState.visibility = View.GONE
+                binding.rvHabits.visibility = View.VISIBLE
+            }
+
+            updateProgress(habits)
         }
-
-        updateProgress(habits)
     }
 
     private fun updateProgress(habits: List<Habit>) {
@@ -135,8 +136,7 @@ class MainActivity : AppCompatActivity() {
             .setTitle(getString(R.string.delete_dialog_title))
             .setMessage(getString(R.string.delete_dialog_message, habit.name))
             .setPositiveButton(getString(R.string.btn_delete)) { _, _ ->
-                repository.deleteHabit(habit.id)
-                loadHabits()
+                viewModel.delete(habit.id)
             }
             .setNegativeButton(getString(R.string.btn_cancel), null)
             .show()

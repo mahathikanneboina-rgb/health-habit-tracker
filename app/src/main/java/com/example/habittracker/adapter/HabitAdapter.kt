@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.habittracker.R
 import com.example.habittracker.databinding.ItemHabitBinding
-import com.example.habittracker.model.Habit
+import com.example.habittracker.data.Habit
 
 class HabitAdapter(
     private val onToggleComplete: (Habit) -> Unit,

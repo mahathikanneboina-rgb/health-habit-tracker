@@ -7,16 +7,24 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
-import com.example.habittracker.data.HabitRepository
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.example.habittracker.data.Habit
 import com.example.habittracker.databinding.ActivityAddHabitBinding
-import com.example.habittracker.model.Habit
+import com.example.habittracker.viewmodel.HabitViewModel
+import com.example.habittracker.viewmodel.HabitViewModelFactory
+import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
 
 class AddHabitActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddHabitBinding
-    private lateinit var repository: HabitRepository
+
+    // Inject ViewModel using ViewModelProvider.Factory and the application singleton repository
+    private val viewModel: HabitViewModel by viewModels {
+        HabitViewModelFactory((application as HabitApplication).repository)
+    }
 
     private var editingHabitId: String? = null
     private var selectedHour = 8
@@ -30,8 +38,6 @@ class AddHabitActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddHabitBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        repository = HabitRepository(this)
 
         setupCategoryDropdown()
         setupTimePicker()
@@ -79,16 +85,18 @@ class AddHabitActivity : AppCompatActivity() {
     private fun checkEditMode() {
         editingHabitId = intent.getStringExtra(EXTRA_HABIT_ID)
         editingHabitId?.let { id ->
-            val habit = repository.getHabitById(id)
-            if (habit != null) {
-                binding.tvAddHabitTitle.text = getString(R.string.title_edit_habit)
-                binding.btnSaveHabit.text = getString(R.string.btn_update_habit)
+            lifecycleScope.launch {
+                val habit = viewModel.getHabitById(id)
+                if (habit != null) {
+                    binding.tvAddHabitTitle.text = getString(R.string.title_edit_habit)
+                    binding.btnSaveHabit.text = getString(R.string.btn_update_habit)
 
-                binding.etHabitName.setText(habit.name)
-                binding.actvCategory.setText(habit.category, false)
-                binding.etDailyGoal.setText(habit.dailyGoal)
-                binding.etReminderTime.setText(habit.reminderTime)
-                binding.etNotes.setText(habit.notes)
+                    binding.etHabitName.setText(habit.name)
+                    binding.actvCategory.setText(habit.category, false)
+                    binding.etDailyGoal.setText(habit.dailyGoal)
+                    binding.etReminderTime.setText(habit.reminderTime)
+                    binding.etNotes.setText(habit.notes)
+                }
             }
         }
     }
@@ -137,15 +145,21 @@ class AddHabitActivity : AppCompatActivity() {
         if (!isValid) return
 
         if (editingHabitId != null) {
-            val existingHabit = repository.getHabitById(editingHabitId!!)
-            if (existingHabit != null) {
-                existingHabit.name = name
-                existingHabit.category = category
-                existingHabit.dailyGoal = dailyGoal
-                existingHabit.reminderTime = reminderTime
-                existingHabit.notes = notes
-                repository.updateHabit(existingHabit)
-                Toast.makeText(this, getString(R.string.habit_updated_success), Toast.LENGTH_SHORT).show()
+            lifecycleScope.launch {
+                val existingHabit = viewModel.getHabitById(editingHabitId!!)
+                if (existingHabit != null) {
+                    val updatedHabit = existingHabit.copy(
+                        name = name,
+                        category = category,
+                        dailyGoal = dailyGoal,
+                        reminderTime = reminderTime,
+                        notes = notes
+                    )
+                    viewModel.update(updatedHabit)
+                    Toast.makeText(this@AddHabitActivity, getString(R.string.habit_updated_success), Toast.LENGTH_SHORT).show()
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
             }
         } else {
             val newHabit = Habit(
@@ -156,11 +170,10 @@ class AddHabitActivity : AppCompatActivity() {
                 notes = notes,
                 isCompleted = false
             )
-            repository.addHabit(newHabit)
+            viewModel.insert(newHabit)
             Toast.makeText(this, getString(R.string.habit_saved_success), Toast.LENGTH_SHORT).show()
+            setResult(Activity.RESULT_OK)
+            finish()
         }
-
-        setResult(Activity.RESULT_OK)
-        finish()
     }
 }

@@ -5,9 +5,12 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.habittracker.data.HabitRepository
+import com.example.habittracker.data.Habit
 import com.example.habittracker.databinding.ActivityReportsBinding
+import com.example.habittracker.viewmodel.HabitViewModel
+import com.example.habittracker.viewmodel.HabitViewModelFactory
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -22,26 +25,34 @@ import com.google.android.material.tabs.TabLayout
 class ReportsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityReportsBinding
-    private lateinit var repository: HabitRepository
+    
+    // Inject ViewModel using ViewModelProvider.Factory and the application singleton repository
+    private val viewModel: HabitViewModel by viewModels {
+        HabitViewModelFactory((application as HabitApplication).repository)
+    }
+
+    private var currentHabits: List<Habit> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityReportsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        repository = HabitRepository(this)
-
         setupBottomNavigation()
         setupTimeframeTabs()
-
-        // Initial load for Daily timeframe
-        loadStatistics(0)
+        observeHabits()
     }
 
-    override fun onResume() {
-        super.onResume()
-        val currentTab = binding.tlTimeframe.selectedTabPosition
-        loadStatistics(if (currentTab >= 0) currentTab else 0)
+    /**
+     * Observes the LiveData stream of habits from the Room database.
+     * Caches the list and triggers report generation.
+     */
+    private fun observeHabits() {
+        viewModel.allHabits.observe(this) { habits ->
+            currentHabits = habits
+            val currentTab = binding.tlTimeframe.selectedTabPosition
+            loadStatistics(if (currentTab >= 0) currentTab else 0)
+        }
     }
 
     private fun setupTimeframeTabs() {
@@ -57,7 +68,7 @@ class ReportsActivity : AppCompatActivity() {
     }
 
     private fun loadStatistics(timeframePosition: Int) {
-        val habits = repository.getAllHabits()
+        val habits = currentHabits
 
         if (habits.isEmpty()) {
             binding.llReportsEmptyState.visibility = View.VISIBLE
