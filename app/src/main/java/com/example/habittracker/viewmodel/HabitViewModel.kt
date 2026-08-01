@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.Transformations
 import com.example.habittracker.data.Habit
 import com.example.habittracker.data.HabitRepository
+import com.example.habittracker.model.Insight
+import com.example.habittracker.util.InsightGenerator
 import kotlinx.coroutines.launch
 
 /**
@@ -16,6 +19,11 @@ class HabitViewModel(private val repository: HabitRepository) : ViewModel() {
 
     // Converts Flow from repository to LiveData, allowing views to observe updates.
     val allHabits: LiveData<List<Habit>> = repository.allHabits.asLiveData()
+
+    // Insight LiveData generated from habit list
+    val insight: LiveData<Insight> = Transformations.map(allHabits) { habitList ->
+        InsightGenerator.generateInsight(habitList)
+    }
 
     /**
      * Coroutine-bound database insert operation.
@@ -51,4 +59,4 @@ class HabitViewModel(private val repository: HabitRepository) : ViewModel() {
     suspend fun getHabitById(id: String): Habit? {
         return repository.getHabitById(id)
     }
-}
+

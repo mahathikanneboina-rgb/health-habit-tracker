@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         setupBottomNavigation()
         setupFab()
         observeHabits()
+        observeInsight()
     }
 
     private fun displayTodayDate() {
