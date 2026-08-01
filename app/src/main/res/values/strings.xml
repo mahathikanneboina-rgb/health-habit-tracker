@@ -90,4 +90,7 @@
     <string name="habit_updated_success">Habit updated successfully!</string>
     <string name="habit_saved_success">Habit saved successfully!</string>
     <string name="no_reports_data_available">No habit data available yet.</string>
+
+    <string name="dark_mode">Dark Mode</string>
+    <string name="notifications">Notifications</string>
 </resources>

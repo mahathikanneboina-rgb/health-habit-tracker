@@ -124,9 +124,10 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_settings -> {
-                    Toast.makeText(this, getString(R.string.tab_selected_format, getString(R.string.nav_settings)), Toast.LENGTH_SHORT).show()
-                    true
-                }
+    val intent = Intent(this, SettingsActivity::class.java)
+    startActivity(intent)
+    true
+}
                 else -> false
             }
         }
