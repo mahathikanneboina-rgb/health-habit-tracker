@@ -7,15 +7,25 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import com.example.habittracker.databinding.ActivityRegisterBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.UserProfileChangeRequest
 
+/**
+ * RegisterActivity handles new user registration using Firebase Authentication.
+ */
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Initialize Firebase Auth
+        auth = FirebaseAuth.getInstance()
 
         setupListeners()
     }
@@ -41,12 +51,11 @@ class RegisterActivity : AppCompatActivity() {
         // Register button click
         binding.btnRegister.setOnClickListener {
             if (validateInputs()) {
-                Toast.makeText(this, getString(R.string.registration_success_login), Toast.LENGTH_LONG).show()
-                if (isTaskRoot) {
-                    val intent = Intent(this, LoginActivity::class.java)
-                    startActivity(intent)
-                }
-                finish()
+                val name = binding.etName.text.toString().trim()
+                val email = binding.etEmail.text.toString().trim()
+                val password = binding.etPassword.text.toString().trim()
+
+                registerWithFirebase(name, email, password)
             }
         }
 
@@ -56,6 +65,44 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Create account using Firebase Authentication.
+     */
+    private fun registerWithFirebase(name: String, email: String, password: String) {
+        binding.btnRegister.isEnabled = false
+
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    // Update user display name in Firebase Auth profile
+                    val profileUpdates = UserProfileChangeRequest.Builder()
+                        .setDisplayName(name)
+                        .build()
+                    user?.updateProfile(profileUpdates)
+
+                    Toast.makeText(this, getString(R.string.registration_success_login), Toast.LENGTH_LONG).show()
+
+                    // Redirect to Login screen
+                    val intent = Intent(this, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
+                } else {
+                    binding.btnRegister.isEnabled = true
+                    val exception = task.exception
+                    val errorMessage = when (exception) {
+                        is FirebaseAuthUserCollisionException -> "An account with this email address already exists."
+                        else -> exception?.localizedMessage ?: "Registration failed. Please try again."
+                    }
+                    Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+                }
+            }
+    }
+
+    /**
+     * Input validation logic for Name, Email, Password and Confirm Password fields.
+     */
     private fun validateInputs(): Boolean {
         var isValid = true
 

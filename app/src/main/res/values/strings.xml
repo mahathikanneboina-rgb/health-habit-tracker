@@ -44,6 +44,12 @@
     <string name="nav_reports">Reports</string>
     <string name="nav_profile">Profile</string>
     <string name="nav_settings">Settings</string>
+    
+    <!-- Profile & Auth -->
+    <string name="btn_logout">Logout</string>
+    <string name="logout_confirmation_title">Logout</string>
+    <string name="logout_confirmation_message">Are you sure you want to sign out?</string>
+    <string name="logout_success">Signed out successfully</string>
 
     <!-- Dashboard Screen -->
     <string name="greeting_hello">Hello, Alex 👋</string>

@@ -27,5 +27,13 @@ class SplashActivity : AppCompatActivity() {
                 finish()
             }
         }
+
+        viewModel.navigateToMain.observe(this) { shouldNavigate ->
+            if (shouldNavigate == true) {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
     }
 }

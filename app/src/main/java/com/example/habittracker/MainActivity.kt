@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_profile -> {
-                    Toast.makeText(this, getString(R.string.tab_selected_format, getString(R.string.nav_profile)), Toast.LENGTH_SHORT).show()
+                    showLogoutConfirmationDialog()
                     true
                 }
                 R.id.nav_settings -> {
@@ -129,6 +129,25 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    /**
+     * Show confirmation dialog when user selects Logout / Profile.
+     */
+    private fun showLogoutConfirmationDialog() {
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle(getString(R.string.logout_confirmation_title))
+            .setMessage(getString(R.string.logout_confirmation_message))
+            .setPositiveButton(getString(R.string.btn_logout)) { _, _ ->
+                com.google.firebase.auth.FirebaseAuth.getInstance().signOut()
+                Toast.makeText(this, getString(R.string.logout_success), Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+            }
+            .setNegativeButton(getString(R.string.btn_cancel), null)
+            .show()
     }
 
     private fun showDeleteConfirmationDialog(habit: Habit) {
