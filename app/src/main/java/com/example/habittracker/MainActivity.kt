@@ -119,7 +119,8 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_profile -> {
-                    showLogoutConfirmationDialog()
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.nav_settings -> {

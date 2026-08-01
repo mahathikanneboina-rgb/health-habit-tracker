@@ -44,6 +44,10 @@
     <string name="nav_reports">Reports</string>
     <string name="nav_profile">Profile</string>
     <string name="nav_settings">Settings</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="profile_image_description">Profile image</string>
+    
+    <string name="change_password">Change Password</string>
     
     <!-- Profile & Auth -->
     <string name="btn_logout">Logout</string>
