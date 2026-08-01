@@ -64,10 +64,11 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
-    // Firebase
+
+        // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
-    // MPAndroidChart
+    implementation(libs.firebase.firestore)
     implementation(libs.androidx.datastore)
     implementation("androidx.work:work-runtime-ktx:2.9.0")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")

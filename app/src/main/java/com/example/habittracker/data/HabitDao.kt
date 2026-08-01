@@ -44,4 +44,8 @@ interface HabitDao {
      */
     @Query("DELETE FROM habits WHERE id = :id")
     fun deleteHabitById(id: String): Int
-}
+    // New method to delete all habits – used when syncing from Firestore
+    @Query("DELETE FROM habits")
+    suspend fun deleteAllHabits()
+
+    }

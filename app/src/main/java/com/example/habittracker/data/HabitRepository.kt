@@ -1,5 +1,8 @@
 package com.example.habittracker.data
 
+import androidx.lifecycle.LiveData
+import com.example.habittracker.data.HabitDao
+import com.example.habittracker.data.Habit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -10,6 +13,38 @@ import kotlinx.coroutines.withContext
  * Ensures all synchronous database operations are executed on a background thread.
  */
 class HabitRepository(private val habitDao: HabitDao) {
+
+    // New method to sync local DB from Firestore
+    suspend fun syncFromFirestore(uid: String) = withContext(Dispatchers.IO) {
+        // Clear existing habits
+        habitDao.deleteAllHabits()
+        // Fetch from Firestore
+        val firestoreHabits = com.example.habittracker.repository.FirestoreRepository().fetchHabits(uid)
+        // Insert each habit into local DB
+        firestoreHabits.forEach { habitDao.insertHabit(it.toRoomHabit()) }
+    }
+
+    // Update addHabit to also upload to Firestore
+    suspend fun addHabit(habit: Habit) = withContext(Dispatchers.IO) {
+        habitDao.insertHabit(habit)
+        // Firestore upload (if user is logged in)
+        val uid = com.example.habittracker.util.FirestoreHelper.currentUserId()
+        uid?.let { com.example.habittracker.repository.FirestoreRepository().addHabit(it, habit) }
+    }
+
+    // Update updateHabit to also update Firestore
+    suspend fun updateHabit(habit: Habit) = withContext(Dispatchers.IO) {
+        habitDao.updateHabit(habit)
+        val uid = com.example.habittracker.util.FirestoreHelper.currentUserId()
+        uid?.let { com.example.habittracker.repository.FirestoreRepository().updateHabit(it, habit) }
+    }
+
+    // Update deleteHabit to also delete from Firestore
+    suspend fun deleteHabit(habitId: String) = withContext(Dispatchers.IO) {
+        habitDao.deleteHabitById(habitId)
+        val uid = com.example.habittracker.util.FirestoreHelper.currentUserId()
+        uid?.let { com.example.habittracker.repository.FirestoreRepository().deleteHabit(it, habitId) }
+    }
 
     /**
      * Exposes all habits from the database as a Flow.
@@ -25,29 +60,8 @@ class HabitRepository(private val habitDao: HabitDao) {
         habitDao.getHabitById(id)
     }
 
-    /**
-     * Add a habit to the database.
-     * Executed asynchronously on the Dispatchers.IO dispatcher.
-     */
-    suspend fun addHabit(habit: Habit): Unit = withContext(Dispatchers.IO) {
-        habitDao.insertHabit(habit)
-    }
+    // Deprecated simple CRUD methods removed to avoid duplication. Sync-aware methods above now handle both local and Firestore operations.
 
-    /**
-     * Update an existing habit in the database.
-     * Executed asynchronously on the Dispatchers.IO dispatcher.
-     */
-    suspend fun updateHabit(habit: Habit): Unit = withContext(Dispatchers.IO) {
-        habitDao.updateHabit(habit)
-    }
-
-    /**
-     * Delete a habit from the database.
-     * Executed asynchronously on the Dispatchers.IO dispatcher.
-     */
-    suspend fun deleteHabit(habitId: String): Unit = withContext(Dispatchers.IO) {
-        habitDao.deleteHabitById(habitId)
-    }
 
     /**
      * Toggle the completion status of a habit in the database.
