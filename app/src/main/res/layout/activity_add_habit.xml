@@ -128,6 +128,15 @@
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchEnableReminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enable_reminder"
+                app:layout_constraintTop_toBottomOf="@+id/tilReminderTime"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp" />
+
             <!-- Notes Field (Optional) -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilNotes"

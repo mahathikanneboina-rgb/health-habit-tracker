@@ -1,28 +1,31 @@
 package com.example.habittracker
 
+import android.app.Application
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.datastore.preferences.core.PreferenceDataStoreFactory
-import java.io.File
-
-import android.app.Application
 import com.example.habittracker.data.HabitDatabase
 import com.example.habittracker.data.HabitRepository
+import com.example.habittracker.util.NotificationHelper
 
 /**
- * HabitApplication class which acts as the entry point of the app. Provides lazy loading singletons for the database and repository.
+ * Application class for Health Habit Tracker.
+ * Provides singletons for the Room database, repository, and DataStore.
  */
 class HabitApplication : Application() {
 
-    // Lazily instantiate the database.
-    val database by lazy { HabitDatabase.getDatabase(this) }
+    // Lazy initialization of the Room database.
+    val database: HabitDatabase by lazy { HabitDatabase.getDatabase(this) }
 
-    // DataStore for app settings
-    val dataStore: DataStore<Preferences> by lazy {
-        PreferenceDataStoreFactory.create {
-            File(applicationContext.filesDir, "settings.preferences_pb")
-        }
+    // Repository that abstracts data access.
+    val repository: HabitRepository by lazy { HabitRepository(database.habitDao()) }
+
+    // DataStore for simple key‑value settings.
+    val dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+
+    override fun onCreate() {
+        super.onCreate()
+        // Create notification channel for reminder notifications.
+        NotificationHelper.createNotificationChannel(this)
     }
-    val repository by lazy { HabitRepository(database.habitDao()) }
 }

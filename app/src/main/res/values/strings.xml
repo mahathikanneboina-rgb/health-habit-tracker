@@ -93,4 +93,7 @@
 
     <string name="dark_mode">Dark Mode</string>
     <string name="notifications">Notifications</string>
+    <string name="enable_reminder">Enable Reminder</string>
+    <string name="notification_channel_name">Habit Reminders</string>
+    <string name="notification_channel_description">Daily habit reminder notifications</string>
 </resources>

@@ -69,5 +69,6 @@ dependencies {
     implementation(libs.firebase.auth)
     // MPAndroidChart
     implementation(libs.androidx.datastore)
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

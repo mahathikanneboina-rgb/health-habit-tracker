@@ -144,6 +144,9 @@ class AddHabitActivity : AppCompatActivity() {
 
         if (!isValid) return
 
+        // Retrieve reminder enabled state
+        val reminderEnabled = binding.switchEnableReminder.isChecked
+
         if (editingHabitId != null) {
             lifecycleScope.launch {
                 val existingHabit = viewModel.getHabitById(editingHabitId!!)
@@ -153,9 +156,16 @@ class AddHabitActivity : AppCompatActivity() {
                         category = category,
                         dailyGoal = dailyGoal,
                         reminderTime = reminderTime,
-                        notes = notes
+                        notes = notes,
+                        reminderEnabled = reminderEnabled
                     )
                     viewModel.update(updatedHabit)
+                    // Schedule or cancel reminder based on toggle
+                    if (reminderEnabled) {
+                        com.example.habittracker.util.WorkManagerUtil.scheduleReminder(this@AddHabitActivity, updatedHabit)
+                    } else {
+                        com.example.habittracker.util.WorkManagerUtil.cancelReminder(this@AddHabitActivity, updatedHabit.id)
+                    }
                     Toast.makeText(this@AddHabitActivity, getString(R.string.habit_updated_success), Toast.LENGTH_SHORT).show()
                     setResult(Activity.RESULT_OK)
                     finish()
@@ -168,9 +178,13 @@ class AddHabitActivity : AppCompatActivity() {
                 dailyGoal = dailyGoal,
                 reminderTime = reminderTime,
                 notes = notes,
-                isCompleted = false
+                reminderEnabled = reminderEnabled
             )
             viewModel.insert(newHabit)
+            // Schedule reminder if enabled
+            if (reminderEnabled) {
+                com.example.habittracker.util.WorkManagerUtil.scheduleReminder(this, newHabit)
+            }
             Toast.makeText(this, getString(R.string.habit_saved_success), Toast.LENGTH_SHORT).show()
             setResult(Activity.RESULT_OK)
             finish()

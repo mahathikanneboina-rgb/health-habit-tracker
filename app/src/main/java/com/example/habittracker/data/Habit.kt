@@ -18,5 +18,6 @@ data class Habit(
     val dailyGoal: String, // e.g., "2.5 Liters", "30 Minutes"
     val reminderTime: String, // e.g., "08:00 AM"
     val notes: String = "",
+    val reminderEnabled: Boolean = false,
     val isCompleted: Boolean = false
 )
