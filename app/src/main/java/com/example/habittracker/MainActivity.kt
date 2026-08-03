@@ -93,6 +93,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Observes the AI health insight from the ViewModel.
+     * Updates the insight card message and statistics reactively.
+     */
+    private fun observeInsight() {
+        viewModel.insight.observe(this) { insight ->
+            binding.cardInsight.tvInsightMessage.text = insight.message
+            binding.cardInsight.tvInsightCompletedVal.text = "${insight.completedHabits} / ${insight.totalHabits}"
+            binding.cardInsight.tvInsightPercentVal.text = "${insight.completionPercentage}%"
+            binding.cardInsight.tvInsightStreakVal.text = "🔥 ${insight.currentStreak} days"
+            binding.cardInsight.tvInsightWeeklyVal.text = insight.weeklyProgress
+        }
+    }
+
     private fun updateProgress(habits: List<Habit>) {
         val totalHabits = habits.size
         if (totalHabits == 0) {

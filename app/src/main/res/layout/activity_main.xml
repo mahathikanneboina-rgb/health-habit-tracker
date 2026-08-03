@@ -142,6 +142,16 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- AI Health Insights Card -->
+            <include
+                android:id="@+id/cardInsight"
+                layout="@layout/card_insight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardProgress" />
+
             <!-- Section Title: Today's Habits -->
             <TextView
                 android:id="@+id/tvSectionTitle"
@@ -153,7 +163,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardProgress" />
+                app:layout_constraintTop_toBottomOf="@+id/cardInsight" />
 
             <!-- Habits RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
