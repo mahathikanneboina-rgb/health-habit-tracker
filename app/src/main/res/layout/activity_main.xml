@@ -33,6 +33,18 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tvGreetingSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/greeting_subtitle_text"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/ivProfileAvatar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvGreeting" />
+
+            <TextView
                 android:id="@+id/tvTodayDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -41,15 +53,15 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toStartOf="@+id/ivProfileAvatar"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvGreeting"
+                app:layout_constraintTop_toBottomOf="@+id/tvGreetingSubtitle"
                 tools:text="Saturday, July 25, 2026" />
 
             <!-- Profile Avatar -->
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivProfileAvatar"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@color/primary_light"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_profile_avatar"
                 android:padding="8dp"
                 android:src="@drawable/ic_profile"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -57,12 +69,23 @@
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.SmallComponent"
                 app:tint="@color/primary" />
 
+            <!-- Motivational Quote Card -->
+            <include
+                android:id="@+id/cardQuote"
+                layout="@layout/card_quote"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTodayDate" />
+
             <!-- Today's Progress Card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardProgress"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 app:cardBackgroundColor="@color/surface"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
@@ -70,11 +93,12 @@
                 app:strokeWidth="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTodayDate">
+                app:layout_constraintTop_toBottomOf="@+id/cardQuote">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/bg_gradient_progress"
                     android:padding="20dp">
 
                     <TextView
@@ -89,10 +113,10 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tvStreak"
+                        android:id="@+id/tvStreakBadge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/primary_light"
+                        android:background="@drawable/bg_streak_badge"
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="4dp"
                         android:text="@string/progress_streak"
@@ -125,19 +149,17 @@
                         tools:text="3 of 4 habits completed" />
 
                     <!-- Progress Bar -->
-                    <com.google.android.material.progressindicator.LinearProgressIndicator
-                        android:id="@+id/pbHabits"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        app:indicatorColor="@color/primary"
-                        app:trackColor="@color/primary_light"
-                        app:trackCornerRadius="6dp"
-                        app:trackThickness="10dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/circularProgress"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         app:layout_constraintTop_toBottomOf="@+id/tvProgressPercentage"
-                        tools:progress="75" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:indicatorSize="80dp"
+                        app:trackThickness="6dp"
+                        app:indicatorColor="@color/primary" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>

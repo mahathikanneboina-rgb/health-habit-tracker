@@ -96,4 +96,49 @@
     <string name="enable_reminder">Enable Reminder</string>
     <string name="notification_channel_name">Habit Reminders</string>
     <string name="notification_channel_description">Daily habit reminder notifications</string>
+
+    <!-- Motivational Quotes -->
+    <string name="quote_label">💡 Daily Motivation</string>
+    <string-array name="motivational_quotes">
+        <item>"The secret of getting ahead is getting started." — Mark Twain</item>
+        <item>"Small daily improvements are the key to long-term results." — Unknown</item>
+        <item>"Your health is your greatest wealth." — Virgil</item>
+        <item>"We are what we repeatedly do. Excellence is a habit." — Aristotle</item>
+        <item>"Believe you can and you\'re halfway there." — Theodore Roosevelt</item>
+        <item>"Take care of your body. It\'s the only place you have to live." — Jim Rohn</item>
+        <item>"Success is the sum of small efforts repeated daily." — Robert Collier</item>
+        <item>"Don\'t count the days, make the days count." — Muhammad Ali</item>
+    </string-array>
+
+    <!-- Settings Groups -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_notifications_group">Notifications</string>
+    <string name="settings_account">Account</string>
+    <string name="settings_about">About</string>
+    <string name="settings_app_version">App Version</string>
+    <string name="settings_app_version_value">1.0.0</string>
+
+    <!-- Profile -->
+    <string name="profile_title">My Profile</string>
+    <string name="profile_account_section">Account Information</string>
+    <string name="profile_actions_section">Actions</string>
+    <!-- Enhanced Greeting -->
+    <string name="greeting_dynamic">Hello, %1$s 👋</string>
+    <string name="greeting_subtitle_text">Let\'s complete your daily habits!</string>
+    
+    <!-- Reports -->
+    <string name="reports_loading">Loading your reports…</string>
+    <string name="reports_empty_subtitle">Complete some habits to see your analytics here.</string>
+    <string name="reports_title">Reports \u0026 Analytics</string>
+    <string name="reports_subtitle">Track your progress and habit streaks</string>
+    
+    <!-- Settings Descriptions -->
+    <string name="dark_mode_desc">Switch between light and dark themes</string>
+    <string name="notifications_desc">Receive daily habit reminders</string>
+    <string name="settings_subtitle">Customize your experience</string>
+    
+    <!-- Profile -->
+    <string name="profile_member_since">Member since %1$s</string>
+    <string name="profile_stats_section">Your Stats</string>
 </resources>

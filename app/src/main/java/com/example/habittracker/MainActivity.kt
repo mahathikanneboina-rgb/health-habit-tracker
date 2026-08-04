@@ -1,9 +1,11 @@
 package com.example.habittracker
 
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -40,11 +42,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         displayTodayDate()
+        displayMotivationalQuote()
         setupRecyclerView()
         setupBottomNavigation()
         setupFab()
         observeHabits()
         observeInsight()
+    }
+
+    private fun displayMotivationalQuote() {
+        val quotes = resources.getStringArray(R.array.motivational_quotes)
+        val randomQuote = quotes.random()
+        binding.cardQuote.tvQuoteText.text = randomQuote
     }
 
     private fun displayTodayDate() {
@@ -62,6 +71,7 @@ class MainActivity : AppCompatActivity() {
                     putExtra(AddHabitActivity.EXTRA_HABIT_ID, habit.id)
                 }
                 addHabitLauncher.launch(intent)
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             },
             onDeleteClick = { habit ->
                 showDeleteConfirmationDialog(habit)
@@ -70,6 +80,11 @@ class MainActivity : AppCompatActivity() {
         binding.rvHabits.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = habitAdapter
+            val animation = android.view.animation.AnimationUtils.loadAnimation(context, R.anim.fade_in)
+            layoutAnimation = android.view.animation.LayoutAnimationController(animation).apply {
+                delay = 0.1f
+                order = android.view.animation.LayoutAnimationController.ORDER_NORMAL
+            }
         }
     }
 
@@ -110,7 +125,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateProgress(habits: List<Habit>) {
         val totalHabits = habits.size
         if (totalHabits == 0) {
-            binding.pbHabits.progress = 0
+            binding.circularProgress.progress = 0
             binding.tvProgressPercentage.text = "0%"
             binding.tvProgressStats.text = "0 of 0 habits completed"
             return
@@ -119,7 +134,12 @@ class MainActivity : AppCompatActivity() {
         val completedHabits = habits.count { it.isCompleted }
         val percentage = (completedHabits * 100) / totalHabits
 
-        binding.pbHabits.progress = percentage
+        // Animate the circular progress
+        val animator = ObjectAnimator.ofInt(binding.circularProgress, "progress", percentage)
+        animator.duration = 500
+        animator.interpolator = DecelerateInterpolator()
+        animator.start()
+
         binding.tvProgressPercentage.text = "$percentage%"
         binding.tvProgressStats.text = "$completedHabits of $totalHabits habits completed"
     }
@@ -131,18 +151,21 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_reports -> {
                     val intent = Intent(this, ReportsActivity::class.java)
                     startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     true
                 }
                 R.id.nav_profile -> {
                     val intent = Intent(this, ProfileActivity::class.java)
                     startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     true
                 }
                 R.id.nav_settings -> {
-    val intent = Intent(this, SettingsActivity::class.java)
-    startActivity(intent)
-    true
-}
+                    val intent = Intent(this, SettingsActivity::class.java)
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    true
+                }
                 else -> false
             }
         }
@@ -182,6 +205,7 @@ class MainActivity : AppCompatActivity() {
         binding.fabAddHabit.setOnClickListener {
             val intent = Intent(this, AddHabitActivity::class.java)
             addHabitLauncher.launch(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
     }
 }

@@ -65,7 +65,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         // Logout – sign out from Firebase and return to Login screen
-        binding.btnLogout.setOnClickListener {
+        binding.btnLogoutSettings.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             Toast.makeText(this, getString(R.string.logout_success), Toast.LENGTH_SHORT).show()
             val intent = Intent(this, LoginActivity::class.java)
@@ -73,5 +73,11 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 }

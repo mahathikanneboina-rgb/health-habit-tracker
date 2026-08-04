@@ -19,4 +19,39 @@
     <!-- General -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- Semantic Status Colors -->
+    <color name="success">#16A34A</color>
+    <color name="warning">#F59E0B</color>
+    <color name="error">#EF4444</color>
+    <color name="info">#3B82F6</color>
+    
+    <!-- Chart Colors -->
+    <color name="chart_completed">#2563EB</color>
+    <color name="chart_pending">#E2E8F0</color>
+    <color name="chart_bar">#6366F1</color>
+    
+    <!-- Gradient Colors -->
+    <color name="gradient_quote_start">#E0F2FE</color>
+    <color name="gradient_quote_end">#F0FDF4</color>
+    <color name="gradient_progress_start">#ECFDF5</color>
+    <color name="gradient_progress_end">#D1FAE5</color>
+    <color name="gradient_profile_start">#10B981</color>
+    <color name="gradient_profile_end">#059669</color>
+    
+    <!-- Category Tint Colors -->
+    <color name="category_water">#3B82F6</color>
+    <color name="category_water_bg">#DBEAFE</color>
+    <color name="category_exercise">#EF4444</color>
+    <color name="category_exercise_bg">#FEE2E2</color>
+    <color name="category_sleep">#8B5CF6</color>
+    <color name="category_sleep_bg">#EDE9FE</color>
+    <color name="category_study">#F59E0B</color>
+    <color name="category_study_bg">#FEF3C7</color>
+    <color name="category_meditation">#10B981</color>
+    <color name="category_meditation_bg">#D1FAE5</color>
+    <color name="category_custom">#6366F1</color>
+    <color name="category_custom_bg">#E0E7FF</color>
+    
+    <!-- Bottom Nav -->
+    <color name="nav_indicator">#D1FAE5</color>
 </resources>

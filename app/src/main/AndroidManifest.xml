@@ -45,6 +45,15 @@
             android:theme="@style/Theme.HabitTracker" />
         <activity
             android:name=".AddHabitActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false"
+            android:theme="@style/Theme.HabitTracker" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false"
+            android:theme="@style/Theme.HabitTracker" />
+        <activity
+            android:name=".SettingsActivity"
             android:exported="false"
             android:theme="@style/Theme.HabitTracker" />
     </application>

@@ -3,6 +3,7 @@ package com.example.habittracker.adapter
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -28,6 +29,16 @@ class HabitAdapter(
 
     override fun onBindViewHolder(holder: HabitViewHolder, position: Int) {
         holder.bind(getItem(position))
+
+        // Fade-in slide-up animation for each item
+        val animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.fade_in_slide_up)
+        animation.startOffset = (position * 100L)
+        holder.itemView.startAnimation(animation)
+    }
+
+    override fun onViewDetachedFromWindow(holder: HabitViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.itemView.clearAnimation()
     }
 
     inner class HabitViewHolder(private val binding: ItemHabitBinding) :
@@ -46,6 +57,9 @@ class HabitAdapter(
                 else -> "🎨"
             }
             binding.tvHabitCategory.text = "${habit.category} $categoryEmoji"
+
+            // Set category icon in the circle
+            binding.tvCategoryIcon.text = categoryEmoji
 
             // Goal & Time
             val goalText = if (habit.dailyGoal.isNotBlank()) "Goal: ${habit.dailyGoal}" else ""

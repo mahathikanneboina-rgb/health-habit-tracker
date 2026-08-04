@@ -21,8 +21,8 @@ class ProfileActivity : AppCompatActivity() {
         // Observe user data
         viewModel.user.observe(this) { user ->
             if (user != null) {
-                binding.tvName.text = user.displayName ?: "User"
-                binding.tvEmail.text = user.email ?: ""
+                binding.tvProfileName.text = user.displayName ?: "User"
+                binding.tvProfileEmail.text = user.email ?: ""
             } else {
                 // No user signed in, redirect to login
                 navigateToLogin()
@@ -57,6 +57,12 @@ class ProfileActivity : AppCompatActivity() {
             // Placeholder for edit profile functionality
             Toast.makeText(this, "Edit Profile not implemented yet", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
     private fun navigateToLogin() {

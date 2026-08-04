@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.HabitTracker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.HabitTracker" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary Brand Colors -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorSecondary">@color/accent</item>
+        <item name="colorOnPrimary">@color/white</item>
+        
+        <!-- Surface Colors -->
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorSurfaceVariant">@color/primary_light</item>
+        
+        <!-- System Bars -->
         <item name="android:statusBarColor">@color/background</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowBackground">@color/background</item>
+        
+        <!-- Smooth Activity Transitions -->
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+    
+    <!-- Circular avatar shape -->
+    <style name="ShapeAppearance.App.CircleAvatar" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+    
+    <!-- Rounded pill shape for badges -->
+    <style name="ShapeAppearance.App.Pill" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 </resources>

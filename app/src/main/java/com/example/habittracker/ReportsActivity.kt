@@ -43,12 +43,20 @@ class ReportsActivity : AppCompatActivity() {
         observeHabits()
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+
     /**
      * Observes the LiveData stream of habits from the Room database.
      * Caches the list and triggers report generation.
      */
     private fun observeHabits() {
+        binding.llReportsLoading.visibility = View.VISIBLE
         viewModel.allHabits.observe(this) { habits ->
+            binding.llReportsLoading.visibility = View.GONE
             currentHabits = habits
             val currentTab = binding.tlTimeframe.selectedTabPosition
             loadStatistics(if (currentTab >= 0) currentTab else 0)
@@ -187,7 +195,7 @@ class ReportsActivity : AppCompatActivity() {
             legend.isEnabled = true
             legend.textSize = 12f
             legend.textColor = Color.parseColor("#64748B")
-            animateY(800)
+            animateY(1000)
             invalidate()
         }
     }
@@ -233,7 +241,7 @@ class ReportsActivity : AppCompatActivity() {
 
             axisRight.isEnabled = false
             legend.isEnabled = false
-            animateY(800)
+            animateY(1000)
             invalidate()
         }
     }
@@ -246,16 +254,21 @@ class ReportsActivity : AppCompatActivity() {
                     val intent = Intent(this, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                     startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
                     finish()
                     true
                 }
                 R.id.nav_reports -> true
                 R.id.nav_profile -> {
-                    Toast.makeText(this, getString(R.string.tab_selected_format, getString(R.string.nav_profile)), Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     true
                 }
                 R.id.nav_settings -> {
-                    Toast.makeText(this, getString(R.string.tab_selected_format, getString(R.string.nav_settings)), Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, SettingsActivity::class.java)
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     true
                 }
                 else -> false
