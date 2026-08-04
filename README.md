@@ -156,7 +156,8 @@ Follow these steps to set up and run the project locally:
 ## 👤 Author
 
 **Mahathi Kanneboina**
-- GitHub: [@Mahathi-K](https://github.com/Mahathi-K)
+- GitHub: [@/mahathikanneboina-rgb]
+- 
 
 ---
 
