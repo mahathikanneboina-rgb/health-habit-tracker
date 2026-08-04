@@ -36,6 +36,12 @@ object NotificationHelper {
             .setAutoCancel(true)
             .build()
 
-        NotificationManagerCompat.from(context).notify(habitName.hashCode(), notification)
+        if (androidx.core.content.ContextCompat.checkSelfPermission(
+                context,
+                android.Manifest.permission.POST_NOTIFICATIONS
+            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+        ) {
+            NotificationManagerCompat.from(context).notify(habitName.hashCode(), notification)
+        }
     }
 }

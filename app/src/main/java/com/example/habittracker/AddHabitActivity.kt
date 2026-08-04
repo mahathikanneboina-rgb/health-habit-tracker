@@ -96,6 +96,7 @@ class AddHabitActivity : AppCompatActivity() {
                     binding.etDailyGoal.setText(habit.dailyGoal)
                     binding.etReminderTime.setText(habit.reminderTime)
                     binding.etNotes.setText(habit.notes)
+                    binding.switchEnableReminder.isChecked = habit.reminderEnabled
                 }
             }
         }

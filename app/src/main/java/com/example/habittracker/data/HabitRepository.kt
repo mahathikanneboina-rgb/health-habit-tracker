@@ -73,7 +73,7 @@ class HabitRepository(private val habitDao: HabitDao) {
         val habit = habitDao.getHabitById(habitId)
         if (habit != null) {
             val updated = habit.copy(isCompleted = !habit.isCompleted)
-            habitDao.updateHabit(updated)
+            updateHabit(updated)
             updated.isCompleted
         } else {
             false

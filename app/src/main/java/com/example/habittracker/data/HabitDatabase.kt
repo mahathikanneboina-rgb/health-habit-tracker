@@ -64,6 +64,7 @@ abstract class HabitDatabase : RoomDatabase() {
                     put("dailyGoal", goal)
                     put("reminderTime", time)
                     put("notes", "")
+                    put("reminderEnabled", 0) // false
                     put("isCompleted", 0) // false
                 }
                 db.insert("habits", SQLiteDatabase.CONFLICT_REPLACE, values)

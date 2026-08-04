@@ -37,8 +37,8 @@ class FirestoreRepository {
     suspend fun addHabit(uid: String, habit: Habit) = withContext(Dispatchers.IO) {
         try {
             val firestoreHabit = FirestoreHabit.fromRoomHabit(habit)
-            // Let Firestore generate a document ID; we also store it locally via habit.id
-            Tasks.await(habitsCollection(uid).add(firestoreHabit))
+            // Use local habit.id as Firestore document ID to keep them in sync
+            Tasks.await(habitsCollection(uid).document(habit.id).set(firestoreHabit))
         } catch (e: Exception) {
             // Swallow or log; syncing errors are shown by the ViewModel
         }

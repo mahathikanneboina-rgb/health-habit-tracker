@@ -52,12 +52,16 @@ object WorkManagerUtil {
     private fun parseReminderTimeToMillis(timeString: String): Long {
         try {
             val formatter = java.text.SimpleDateFormat("hh:mm a", java.util.Locale.getDefault())
-            val date = formatter.parse(timeString) ?: return System.currentTimeMillis()
+            val parsedDate = formatter.parse(timeString) ?: return System.currentTimeMillis()
+            
+            val today = java.util.Calendar.getInstance()
             val calendar = java.util.Calendar.getInstance().apply {
-                time = date
-                set(java.util.Calendar.YEAR, get(java.util.Calendar.YEAR))
-                set(java.util.Calendar.MONTH, get(java.util.Calendar.MONTH))
-                set(java.util.Calendar.DAY_OF_MONTH, get(java.util.Calendar.DAY_OF_MONTH))
+                time = parsedDate
+                set(java.util.Calendar.YEAR, today.get(java.util.Calendar.YEAR))
+                set(java.util.Calendar.MONTH, today.get(java.util.Calendar.MONTH))
+                set(java.util.Calendar.DAY_OF_MONTH, today.get(java.util.Calendar.DAY_OF_MONTH))
+                set(java.util.Calendar.SECOND, 0)
+                set(java.util.Calendar.MILLISECOND, 0)
             }
             return calendar.timeInMillis
         } catch (e: Exception) {

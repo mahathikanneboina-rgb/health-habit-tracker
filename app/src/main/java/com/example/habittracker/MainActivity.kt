@@ -1,14 +1,19 @@
 package com.example.habittracker
 
+import android.Manifest
 import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.activity.viewModels
 import com.example.habittracker.adapter.HabitAdapter
@@ -48,6 +53,26 @@ class MainActivity : AppCompatActivity() {
         setupFab()
         observeHabits()
         observeInsight()
+        requestNotificationPermission()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.bnvMain.selectedItemId = R.id.nav_home
+    }
+
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    101
+                )
+            }
+        }
     }
 
     private fun displayMotivationalQuote() {

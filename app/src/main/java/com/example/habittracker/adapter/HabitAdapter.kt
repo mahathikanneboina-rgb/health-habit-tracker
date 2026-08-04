@@ -18,6 +18,13 @@ class HabitAdapter(
     private val onDeleteClick: (Habit) -> Unit
 ) : ListAdapter<Habit, HabitAdapter.HabitViewHolder>(HabitDiffCallback()) {
 
+    private var lastPosition = -1
+
+    override fun submitList(list: List<Habit>?) {
+        lastPosition = -1
+        super.submitList(list)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabitViewHolder {
         val binding = ItemHabitBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -30,10 +37,13 @@ class HabitAdapter(
     override fun onBindViewHolder(holder: HabitViewHolder, position: Int) {
         holder.bind(getItem(position))
 
-        // Fade-in slide-up animation for each item
-        val animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.fade_in_slide_up)
-        animation.startOffset = (position * 100L)
-        holder.itemView.startAnimation(animation)
+        if (position > lastPosition) {
+            // Fade-in slide-up animation for each item
+            val animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.fade_in_slide_up)
+            animation.startOffset = (position * 100L)
+            holder.itemView.startAnimation(animation)
+            lastPosition = position
+        }
     }
 
     override fun onViewDetachedFromWindow(holder: HabitViewHolder) {

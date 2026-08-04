@@ -43,6 +43,11 @@ class ReportsActivity : AppCompatActivity() {
         observeHabits()
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.bnvReports.selectedItemId = R.id.nav_reports
+    }
+
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
